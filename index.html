@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Bismid </title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="School Project">
+	<meta name="description" content="Duwando ">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<!-- <script src="assets/js/product.js"></script> -->
+
+
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="assets/images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com/">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap"
+		rel="stylesheet">
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+	<!-- <link rel="stylesheet" type="text/css" href="assets/vendor/choices/css/choices.min.css"> -->
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body id="app">
+
+	<!-- Header START -->
+	<header class="navbar-light navbar-sticky">
+		<!-- Logo Nav START -->
+		<nav class="navbar navbar-expand-xl">
+			<div class="container">
+				<!-- Logo START -->
+				<a class="navbar-brand" href="index.html">
+					<h2>Bismid</h2>
+				</a>
+				<!-- Logo END -->
+
+				<!-- Responsive navbar toggler -->
+				<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-animation">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</button>
+
+				<!-- Main navbar START -->
+				<div class="navbar-collapse w-100 collapse" id="navbarCollapse">
+
+					<!-- Nav Main menu START -->
+					<ul class="navbar-nav navbar-nav-scroll mx-auto">
+
+						<li class="nav-item dropdown">
+							<a class="nav-link" href="index.html" id="demoMenu">HOME</a>
+
+						</li>
+
+
+					</ul>
+					<!-- Nav Main menu END -->
+
+
+				</div>
+				<!-- Main navbar END -->
+
+
+				<!-- Cart button -->
+				<div class="me-2 me-md-3 dropdown">
+					<button :disabled="!hasItemsInCart" v-on:click="showCart" class="btn btn-light btn-round mb-0"
+						role="button">
+						<i class="bi bi-cart3 fa-fw"></i>
+					</button>
+					<!-- badge -->
+					<span
+						class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-dark mt-xl-2 ms-n1">
+						{{ itemsInTheCart }}
+					</span>
+				</div>
+				<!-- Cart dropdown END -->
+
+			</div>
+		</nav>
+		<!-- Logo Nav END -->
+	</header>
+	<!-- Header END -->
+
+	<!--  MAIN CONTENT START  -->
+	<main v-if="showProduct">
+
+		<!-- 
+      Page Banner START -->
+
+		<!-- 
+          Page Banner END -->
+
+		<!-- 
+              Page content START -->
+		<section class="py-5">
+			<div class="container">
+				<div class="row">
+					<!-- Right sidebar START -->
+					<div class="col-lg-4 col-xl-3">
+						<!-- Responsive offcanvas body START -->
+						<div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar">
+							<div class="offcanvas-header bg-light">
+								<h5 class="offcanvas-title" id="offcanvasNavbarLabel">Advance Filter</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+									data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+							</div>
+							<div class=" p-3 p-lg-0">
+								<form>
+									<!-- Category START -->
+									<div class="card card-body shadow p-4 mb-4">
+										<!-- Title -->
+										<h4 class="mb-3">Sort By</h4>
+										<!-- Category group -->
+										<div class="col-12">
+											<!-- Sorting Criteria Radios -->
+											<div v-for="(option, index) in sortOptions" :key="index"
+												class="d-flex justify-content-between align-items-center">
+												<div class="form-check">
+													<input class="form-check-input" type="radio" name="sortby"
+														:id="'sortOption' + index" v-model="sortBy"
+														:value="option.value">
+													<label class="form-check-label" :for="'sortOption' + index">{{
+														option.label }}</label>
+												</div>
+											</div>
+
+											<!-- Sort Order Radios -->
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="form-check">
+													<input class="form-check-input" type="radio" name="order"
+														id="ascending" v-model="sortOrder" value="asc">
+													<label class="form-check-label" for="ascending">Ascending</label>
+												</div>
+											</div>
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="form-check">
+													<input class="form-check-input" type="radio" name="order"
+														id="descending" v-model="sortOrder" value="desc">
+													<label class="form-check-label" for="descending">Descending</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Category END -->
+								</form><!-- Form End -->
+							</div>
+
+						</div>
+						<!-- Responsive offcanvas body END -->
+					</div>
+					<!-- Right sidebar END -->
+
+					<!-- Main content START -->
+					<div class="col-lg-8 col-xl-9">
+
+						<!-- Search option START -->
+						<div class="row mb-4 align-items-center">
+							<!-- Search bar -->
+							<div class="col-xl-6 mx-auto">
+								<form class="border rounded p-2">
+									<div class="input-group input-borderless">
+										<input type="text" v-model="searchQuery" placeholder="Search for products..."
+											class="form-control me-1" />
+
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- Search option END -->
+
+
+						<!-- Course Grid START -->
+						<div class="row g-4">
+
+							<!-- Card item START -->
+							<div v-for="product in filteredAndSortedProducts" :key="product.id"
+								class="col-sm-6 col-xl-4">
+								<div class="card shadow h-100">
+									<!-- Image -->
+									<img v-bind:src="product.image" class="card-img-top" alt="course image">
+									<div class="card-body pb-0">
+										<!-- Badge and favorite -->
+										<div class="d-flex justify-content-between mb-2">
+											<a href="#"
+												class="badge bg-success bg-opacity-10 text-success">{{product.subcat}}</a>
+											<!-- Use product-specific unshowLove for independent toggling -->
+											<a type="button" v-if="product.unshowLove" @click="toggleLove(product)"
+												class="h6 fw-light mb-0">
+												<i class="far fa-heart"></i>
+											</a>
+											<a type="button" v-else @click="toggleLove(product)" class="text-danger">
+												<i class="fas fa-heart"></i>
+											</a>
+										</div>
+										<!-- Title -->
+										<h5 class="card-title"><a href="#">{{product.title}} </a></h5>
+										<p class="mb-2 text-truncate-2"><strong>Location: </strong>{{product.location}}
+										</p>
+										<!-- Rating star -->
+										<ul class="list-inline d-flex justify-content-between mb-0">
+											<div>
+												<li v-for="n in product.rating" class="list-inline-item me-0 small">
+													<i class="fas fa-star text-warning"></i>
+												</li>
+												<li v-for="n in 5 - product.rating" class="list-inline-item me-0 small">
+													<i class="far fa-star text-warning"></i>
+												</li>
+											</div>
+											<div>
+												<li class="list-inline-item ms-2 h6 fw-light mb-0">£{{product.price}}
+												</li>
+											</div>
+										</ul>
+									</div>
+									<!-- Card footer -->
+									<div class="card-footer pt-0 pb-3">
+										<hr>
+										<div class="d-flex justify-content-between">
+
+											<button v-if="itemsLimit(product)" @click="addToCart(product)" type="button"
+												class="btn btn-outline-primary">Add to cart</button>
+											<button v-else class="btn btn-outline-primary" disabled>Add
+												to cart</button>
+
+											<span v-if="itemsLeft(product) === 0" class="h6 fw-light mb-0">
+												<i class="fas fa-book mt-3 text-orange me-2"></i>
+												All Out!
+											</span>
+											<span v-else-if="itemsLeft(product) < 5" class="h6 fw-light mb-0">
+												<i class="fas fa-book mt-3 text-orange me-2"></i>
+												Only {{itemsLeft(product)}} Left!
+											</span>
+											<span v-else class="h6 fw-light mb-0">
+												<i class="fas fa-book mt-3 text-orange me-2"></i>
+												<!-- {{product.spaces}} Lectures -->
+												{{itemsLeft(product)}} Lectures
+												<!-- Buy Now! -->
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Card item END -->
+							<!-- Show "No Results Found" if no products match -->
+							<div v-if="filteredAndSortedProducts.length === 0" class="col-12 text-center">
+								<p class="text-danger">No results found for "{{ searchQuery }}".</p>
+							</div>
+
+						</div>
+						<!-- Course Grid END -->
+
+					</div>
+					<!-- Main content END -->
+
+
+				</div><!-- Row END -->
+			</div>
+		</section>
+	</main>
+	<!--  MAIN CONTENT END  -->
+
+
+	<!--  MAIN CHECKOUT CONTENT START  -->
+	<main v-else>
+
+		<!-- 
+     Page Banner START -->
+		<section class="py-0">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bg-light p-4 text-center rounded-3">
+							<h1 class="m-0">Checkout</h1>
+							<!-- Breadcrumb -->
+							<div class="d-flex justify-content-center">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb breadcrumb-dots mb-0">
+										<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+										<li class="breadcrumb-item active" aria-current="page"><a href="#">Checkout</a>
+										</li>
+
+									</ol>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 
+     Page Banner END -->
+
+		<!-- 
+     Page content START -->
+		<section class="pt-5">
+			<div class="container">
+
+				<div class="row g-4 g-sm-5">
+					<!-- Main content START -->
+					<div class="col-xl-8 mb-4 mb-sm-0">
+						<!-- Personal info START -->
+						<div class="card card-body shadow p-4">
+							<!-- Title -->
+							<h5 class="mb-0">Personal Details</h5>
+
+							<!-- Form START -->
+							<form class="row g-3 mt-0">
+								<!-- Name -->
+								<div class="col-md-6 bg-light-input">
+									<label for="yourName" class="form-label">Your name *</label>
+									<input type="text" class="form-control" id="yourName" v-model="formData.name"
+										placeholder="Name">
+								</div>
+								<!-- Email -->
+
+								<!-- Mobile number -->
+								<div class="col-md-6 bg-light-input">
+									<label for="mobileNumber" class="form-label">Mobile number *</label>
+									<input type="number" class="form-control" id="mobileNumber"
+										v-model="formData.mobile" placeholder="Mobile number">
+								</div>
+
+							</form>
+							<!-- Form END -->
+
+
+
+						</div>
+						<!-- Personal info END -->
+					</div>
+					<!-- Main content END -->
+
+					<!-- Right sidebar START -->
+					<div class="col-xl-4">
+						<div class="row mb-0">
+							<div class="col-md-6 col-xl-12">
+								<div class="card card-body shadow p-4 mb-4">
+									<!-- Title -->
+									<h4 class="mb-4">Order Summary</h4>
+
+									<!-- Loop through each item in the cart array -->
+									<div v-for="(product, index) in cart" :key="product.id" class="row g-3 mb-3">
+										<!-- Image -->
+										<div class="col-sm-4">
+											<img class="rounded" :src="product.image" alt="Course Image">
+										</div>
+										<!-- Info -->
+										<div class="col-sm-8">
+											<h6 class="mb-0"><a href="#">{{ product.title }}</a></h6>
+											<!-- Info -->
+											<div class="d-flex justify-content-between align-items-center mt-3">
+												<!-- Price -->
+												<span class="text-success">${{ product.price }}</span>
+
+												<!-- Remove button -->
+												<div class="text-primary-hover">
+													<a href="#" class="text-body me-2"
+														@click.prevent="removeFromCart(index)">
+														<i class="bi bi-trash me-1"></i>Remove
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Course item END -->
+
+									<hr> <!-- Divider -->
+
+									<!-- Price and detail -->
+									<ul class="list-group list-group-borderless mb-2">
+										<li class="list-group-item px-0 d-flex justify-content-between">
+											<span class="h6 fw-light mb-0">Total Items</span>
+											<span class="h6 fw-light mb-0">{{ cart.length }}</span>
+										</li>
+										<li class="list-group-item px-0 d-flex justify-content-between">
+											<span class="h5 mb-0">Total</span>
+											<span class="h5 mb-0">${{ total }}</span>
+										</li>
+									</ul>
+
+									<!-- Place Order Button -->
+									<a href="#" class="btn btn-lg btn-success" :disabled="!formIsValid"
+										@click.prevent="placeOrder">
+										Place Order
+									</a>
+
+								</div>
+								<!-- Order summary END -->
+							</div>
+						</div><!-- Row End -->
+					</div>
+					<!-- Right sidebar END -->
+
+				</div><!-- Row END -->
+			</div>
+		</section>
+		<!-- 
+        Page content END -->
+
+	</main>
+</body>
+<div class="back-top"><i class="bi bi-arrow-up-short position-absolute top-50 start-50 translate-middle"></i></div>
+
+
+
+<!-- Bootstrap JS -->
+<script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+	Vue.createApp({
+		data() {
+			return {
+				showProduct: true, // Toggle between product list and checkout views
+				products: [], // Products fetched from the backend
+				searchQuery: '', // Search input value
+				cart: [], // Items added to the cart
+				sortBy: "title", // Default sorting field
+				sortOrder: "asc", // Default sorting order
+				sortOptions: [
+					{ label: "Subject", value: "title" },
+					{ label: "Location", value: "location" },
+					{ label: "Price", value: "price" },
+					{ label: "Availability", value: "spaces" }
+				],
+				formData: {
+					// Checkout form data
+					name: "",
+					mobile: 0,
+
+				},
+				formIsValid: false // Track form validity
+			};
+		},
+		methods: {
+			// Fetch products from the backend
+			async fetchProducts() {
+				try {
+					const response = await fetch('http://localhost:5100/api/products');
+					if (!response.ok) {
+						throw new Error(`Server error: ${response.status} ${response.statusText}`);
+					}
+					this.products = await response.json();
+				} catch (error) {
+					console.error('Failed to fetch products:', error);
+					alert('Unable to fetch products. Please try again later.');
+				}
+			},
+			showCart() {
+				this.showProduct = !this.showProduct;
+			},
+			toggleLove(product) {
+				// Toggle the love state for this specific product
+				product.unshowLove = !product.unshowLove;
+			},
+			addToCart(product) {
+				this.cart.push(product); // Push the entire product object to cart
+			},
+			itemsLimit(product) {
+				return product.spaces > this.cartCount(product.id);
+			},
+			removeFromCart(index) {
+				this.cart.splice(index, 1); // Remove item by index from cart
+			},
+			cartCount(productId) {
+				return this.cart.filter(item => item.id === productId).length;
+			},
+			itemsLeft(product) {
+				return product.spaces - this.cartCount(product.id);
+			},
+			// Place an order and send it to the backend
+			async placeOrder() {
+				if (this.formIsValid && this.cart.length > 0) {
+					const orders = {
+						customer: this.formData,
+						items: this.cart,
+						total: this.total
+					};
+					console.log('Order data being sent:', orders); // Log for debugging
+					try {
+						const response = await fetch('http://localhost:5100/api/orders', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify(orders)
+						});
+
+						console.log('Response:', response); // Log response details
+
+						if (!response.ok) {
+							throw new Error(`Server error: ${response.status} ${response.statusText}`);
+						}
+
+						const result = await response.json();
+						if (result.success) {
+							alert(result.message);
+							this.cart = []; // Clear the cart after a successful order
+							setTimeout(() => {
+								location.reload();
+							}, 100);
+						} else {
+							alert(`Failed to place order: ${result.message || 'Unknown error'}`);
+						}
+					} catch (error) {
+						console.error('Failed to place order:', error);
+						alert('Unable to place order. Please try again later.');
+					}
+				} else {
+					alert('Please fill all form fields or add items to the cart.');
+				}
+			},
+			// Validate checkout form
+			validateForm() {
+				this.formIsValid =
+					this.formData.name.trim();
+				// this.formData.email.trim();
+				// this.formData.mobile.trim() &&
+				// this.formData.postalCode.trim() &&
+				// this.formData.cardNumber.trim() &&
+				// this.formData.expiryMonth.trim() &&
+				// this.formData.expiryYear.trim() &&
+				// this.formData.cvv.trim() &&
+				// this.formData.cardName.trim();
+			}
+		},
+		computed: {
+			itemsInTheCart() {
+				return this.cart.length || "";
+			},
+			hasItemsInCart() {
+				return this.cart.length > 0; // Returns true if cart has items
+			},
+			total() {
+				return this.cart.reduce((sum, item) => sum + item.price, 0); // Summing prices in cart
+			},
+			sortedProducts() {
+				return [...this.products].sort((a, b) => {
+					let result;
+					if (this.sortBy === "title" || this.sortBy === "location") {
+						result = a[this.sortBy].localeCompare(b[this.sortBy]);
+					} else {
+						result = a[this.sortBy] - b[this.sortBy];
+					}
+					return this.sortOrder === "asc" ? result : -result;
+				});
+			},
+			filteredAndSortedProducts() {
+				// Filter the sorted products based on the search query
+				const query = this.searchQuery.toLowerCase();
+
+				return this.sortedProducts.filter(product => {
+					// Check if the product matches the query
+					return (
+						product.title.toLowerCase().includes(query) ||
+						product.location.toLowerCase().includes(query) ||
+						product.subcat.toLowerCase().includes(query) ||
+						String(product.price).toLowerCase().includes(query)
+					);
+				});
+			},
+		},
+		watch: {
+			// Watch formData and validate the form when changes occur
+			formData: {
+				handler: "validateForm",
+				deep: true
+			}
+		},
+		// Fetch products when the app is mounted
+		mounted() {
+			this.fetchProducts();
+		}
+	}).mount('#app');
+</script>
+
+
+</html>
