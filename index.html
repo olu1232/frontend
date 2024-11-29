@@ -451,7 +451,7 @@
 			// Fetch products from the backend
 			async fetchProducts() {
 				try {
-					const response = await fetch('https://backend-pm1k.onrender.com/api/products');
+					const response = await fetch('https://backend-jt7r.onrender.com/api/products');
 					if (!response.ok) {
 						throw new Error(`Server error: ${response.status} ${response.statusText}`);
 					}
@@ -493,7 +493,7 @@
 					};
 					console.log('Order data being sent:', orders); // Log for debugging
 					try {
-						const response = await fetch('https://backend-pm1k.onrender.com/api/orders', {
+						const response = await fetch('https://backend-jt7r.onrender.com/api/orders', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
 							body: JSON.stringify(orders)
