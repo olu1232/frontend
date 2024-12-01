@@ -7,29 +7,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="School Project">
-	<meta name="description" content="Duwando ">
+	<meta name="description" content="Bismid ">
 	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-	<!-- <script src="assets/js/product.js"></script> -->
-
-
-
-	<!-- Favicon -->
-	<!-- <link rel="shortcut icon" href="assets/images/favicon.ico"> -->
-
-	<!-- Google Font -->
-	<link rel="preconnect" href="https://fonts.googleapis.com/">
-	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap"
-		rel="stylesheet">
-	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
-	<!-- <link rel="stylesheet" type="text/css" href="assets/vendor/choices/css/choices.min.css"> -->
-
-	<!-- Theme CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
 </head>
 
 <body id="app">
@@ -55,27 +34,6 @@
 						<span></span>
 					</span>
 				</button>
-
-				<!-- Main navbar START -->
-				<div class="navbar-collapse w-100 collapse" id="navbarCollapse">
-
-					<!-- Nav Main menu START -->
-					<ul class="navbar-nav navbar-nav-scroll mx-auto">
-
-						<li class="nav-item dropdown">
-							<a class="nav-link" href="index.html" id="demoMenu">HOME</a>
-
-						</li>
-
-
-					</ul>
-					<!-- Nav Main menu END -->
-
-
-				</div>
-				<!-- Main navbar END -->
-
-
 				<!-- Cart button -->
 				<div class="me-2 me-md-3 dropdown">
 					<button :disabled="!hasItemsInCart" v-on:click="showCart" class="btn btn-light btn-round mb-0"
@@ -171,7 +129,7 @@
 						<!-- Search option START -->
 						<div class="row mb-4 align-items-center">
 							<!-- Search bar -->
-							<div class="col-xl-6 mx-auto">
+							<div class="col-xl-12 mx-auto">
 								<form class="border rounded p-2">
 									<div class="input-group input-borderless">
 										<input type="text" v-model="searchQuery" placeholder="Search for products..."
@@ -199,13 +157,6 @@
 											<a href="#"
 												class="badge bg-success bg-opacity-10 text-success">{{product.subcat}}</a>
 											<!-- Use product-specific unshowLove for independent toggling -->
-											<a type="button" v-if="product.unshowLove" @click="toggleLove(product)"
-												class="h6 fw-light mb-0">
-												<i class="far fa-heart"></i>
-											</a>
-											<a type="button" v-else @click="toggleLove(product)" class="text-danger">
-												<i class="fas fa-heart"></i>
-											</a>
 										</div>
 										<!-- Title -->
 										<h5 class="card-title"><a href="#">{{product.title}} </a></h5>
